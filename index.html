@@ -3,159 +3,312 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diário de Classe - Prof. Gilson</title>
+    <title>Planner Docente Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
-        /* Estilo moderno e limpo para celular */
-        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f4f4f9; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        :root {
+            --dark-green: #0f3d24;
+            --mid-green: #218c74;
+            --light-green: #2ecc71;
+            --bg-color: #f0f5f1;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+        }
         
-        h2 { color: var(--primary); border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg-color); margin: 0; padding-bottom: 80px; color: var(--text-dark); }
         
-        /* Cards das Aulas */
-        .card { background: white; border-radius: 10px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 5px solid var(--accent); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; }
-        .hora { font-weight: bold; color: #555; font-size: 0.9em; }
-        .turma { font-size: 1.4em; font-weight: bold; color: var(--primary); }
-        .info-sala { margin-top: 10px; font-size: 0.9em; color: #666; background: #eee; padding: 8px; border-radius: 5px; }
-        .bad-projector { color: #c0392b; font-weight: bold; }
-        .auxiliar { color: #27ae60; font-weight: bold; }
+        /* Header com Gradiente */
+        header {
+            background: linear-gradient(135deg, var(--dark-green), var(--mid-green));
+            color: white;
+            padding: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: sticky; top: 0; z-index: 100;
+        }
+        header h1 { margin: 0; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        
+        /* Navegação (Abas) */
+        .tabs { display: flex; justify-content: center; margin-top: 15px; background: rgba(255,255,255,0.2); border-radius: 30px; padding: 5px; }
+        .tab { flex: 1; text-align: center; padding: 8px; color: white; cursor: pointer; border-radius: 20px; font-size: 0.9rem; transition: 0.3s; }
+        .tab.active { background: white; color: var(--dark-green); font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        
+        /* Containers */
+        .container { padding: 20px; display: none; }
+        .container.active { display: block; }
+        
+        /* Card de Aula (Estilo Profissional) */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 0;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .card:active { transform: scale(0.98); }
+        
+        .card-header {
+            background: #f8fcf9;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+        .turma-badge {
+            background: var(--dark-green); color: white; padding: 5px 12px; border-radius: 8px; font-weight: bold; font-size: 1.1rem;
+        }
+        .hora { color: #666; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 5px; }
 
-        /* Botão de Registrar */
-        .btn-registrar { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px; width: 100%; }
+        .card-body { padding: 15px; }
         
-        /* Modal (Janela de Registro) */
-        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; }
-        input, textarea { width: 100%; margin-bottom: 10px; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px; }
-        .btn-salvar { background: var(--accent); color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; font-size: 1.1em; cursor: pointer; }
-        .close { float: right; cursor: pointer; font-size: 1.5em; }
+        .info-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: #555; font-size: 0.9rem; }
+        .info-row i { color: var(--mid-green); width: 20px; text-align: center; }
+        
+        /* Memória (O que passou) */
+        .memory-box {
+            background: #fff3cd; color: #856404;
+            padding: 10px; border-radius: 8px;
+            font-size: 0.85rem; margin-top: 10px;
+            border-left: 4px solid #ffeeba;
+        }
 
-        /* Loading */
-        #loading { text-align: center; margin-top: 50px; font-style: italic; color: #666; }
+        /* Planejamento (O que vem) */
+        .plan-box {
+            background: #d4edda; color: #155724;
+            padding: 10px; border-radius: 8px;
+            font-size: 0.85rem; margin-top: 10px;
+            border-left: 4px solid #c3e6cb;
+        }
+
+        /* Botões */
+        .btn-action {
+            width: 100%; padding: 12px; border: none; background: white;
+            color: var(--mid-green); font-weight: bold; font-size: 0.9rem;
+            border-top: 1px solid #eee; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-action:hover { background: #f0f5f1; }
+
+        /* Accordion para Planejamento */
+        .day-header {
+            background: var(--dark-green); color: white; padding: 10px 15px;
+            border-radius: 8px; margin-top: 20px; display: flex; align-items: center; gap: 10px;
+        }
+
+        /* Modal */
+        #modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(2px);
+            justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-content {
+            background: white; width: 85%; max-width: 400px; padding: 25px;
+            border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        textarea, input {
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;
+            margin-top: 5px; margin-bottom: 15px; font-family: 'Poppins'; box-sizing: border-box;
+        }
+        .btn-save {
+            background: linear-gradient(to right, var(--mid-green), var(--light-green));
+            color: white; border: none; padding: 12px; width: 100%; border-radius: 10px;
+            font-weight: bold; font-size: 1rem; cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
 
-    <div id="main-view">
-        <h2>📅 Aulas de Hoje</h2>
-        <div id="loading">Carregando cronograma...</div>
-        <div id="lista-aulas"></div>
+    <header>
+        <h1><i class="fas fa-graduation-cap"></i> Planner Docente</h1>
+        <div class="tabs">
+            <div class="tab active" onclick="mudarAba('hoje')">Hoje</div>
+            <div class="tab" onclick="mudarAba('planejamento')">Planejamento</div>
+        </div>
+    </header>
+
+    <div id="view-hoje" class="container active">
+        <div id="loading-hoje" style="text-align:center; padding: 20px; color:#666;">
+            <i class="fas fa-spinner fa-spin"></i> Carregando aulas...
+        </div>
+        <div id="lista-hoje"></div>
+    </div>
+
+    <div id="view-planejamento" class="container">
+        <div id="loading-plan" style="text-align:center; padding: 20px; color:#666;">
+            <i class="fas fa-spinner fa-spin"></i> Carregando semana...
+        </div>
+        <div id="lista-planejamento"></div>
     </div>
 
     <div id="modal">
         <div class="modal-content">
-            <span class="close" onclick="fecharModal()">&times;</span>
-            <h3>📝 Registrar Aula</h3>
-            <p id="modal-turma-info" style="color: gray;"></p>
+            <h3 style="margin-top:0; color:var(--dark-green)">
+                <i class="fas fa-pen-fancy"></i> <span id="modal-titulo">Registro</span>
+            </h3>
+            <p id="modal-subtitulo" style="font-size:0.9rem; color:#666"></p>
             
-            <form id="form-registro">
-                <label>O que foi feito hoje?</label>
-                <textarea id="conteudo" rows="3" placeholder="Ex: Introdução à Sociologia..."></textarea>
-                
-                <label>Para a próxima aula:</label>
-                <textarea id="proxima" rows="2" placeholder="Ex: Trazer atividade impressa..."></textarea>
-                
-                <button type="button" class="btn-salvar" onclick="salvarRegistro()">💾 Salvar no Diário</button>
-            </form>
+            <label>Conteúdo / Atividade</label>
+            <textarea id="input-conteudo" rows="3"></textarea>
+            
+            <label>Obs / Próxima Aula</label>
+            <textarea id="input-obs" rows="2"></textarea>
+            
+            <input type="hidden" id="input-data">
+            <input type="hidden" id="input-turma">
+            <input type="hidden" id="input-tipo">
+
+            <button class="btn-save" onclick="salvarDados()">Salvar</button>
+            <button onclick="document.getElementById('modal').style.display='none'" style="background:none; border:none; width:100%; padding:10px; color:#666; cursor:pointer; margin-top:5px;">Cancelar</button>
         </div>
     </div>
 
     <script>
-        // *** IMPORTANTE: COLE SUA URL DO APPS SCRIPT AQUI ***
-        const API_URL = "https://script.google.com/macros/s/AKfycbz6IJyubdqJC_OPPD3NMGXZwN5K1QgMpAoAecmdTor5TL5AsNqS76kHgFzPw4eDBHHr/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbzBq7o9mmuNNeDC7f8LBlWsw2_zbL_y9yzzQnu5K1-M6Wr9fMobAZ7LLMCjgixuPnea/exec"; // Atualize a URL após o deploy!
 
-        let aulaSelecionada = "";
+        function mudarAba(aba) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+            
+            if(aba === 'hoje') {
+                document.querySelector('.tab:nth-child(1)').classList.add('active');
+                document.getElementById('view-hoje').classList.add('active');
+                carregarHoje();
+            } else {
+                document.querySelector('.tab:nth-child(2)').classList.add('active');
+                document.getElementById('view-planejamento').classList.add('active');
+                carregarPlanejamento();
+            }
+        }
 
-        // Ao carregar a página
-        window.onload = function() {
-            carregarAulas();
-        };
-
-        function carregarAulas() {
-            fetch(API_URL + "?action=getHorario")
-            .then(response => response.json())
+        // --- CARREGAR AULAS DE HOJE ---
+        function carregarHoje() {
+            fetch(API_URL + "?action=getHoje")
+            .then(res => res.json())
             .then(data => {
-                const lista = document.getElementById('lista-aulas');
-                document.getElementById('loading').style.display = 'none';
+                const lista = document.getElementById('lista-hoje');
+                document.getElementById('loading-hoje').style.display = 'none';
                 lista.innerHTML = "";
 
                 if(data.length === 0) {
-                    lista.innerHTML = "<p>Nenhuma aula encontrada para hoje.</p>";
+                    lista.innerHTML = "<p style='text-align:center'>Nenhuma aula hoje. Bom descanso! ☕</p>";
                     return;
                 }
 
                 data.forEach(aula => {
-                    // Lógica para destacar problemas no projetor
-                    let projetorClass = aula.projetor.toLowerCase().includes("ruim") || aula.projetor.toLowerCase().includes("alta") ? "bad-projector" : "";
-                    
-                    // Se tiver auxiliar, mostra destaque
-                    let auxiliarInfo = aula.auxiliar ? `<br>🤝 <span class="auxiliar">Auxiliar: ${aula.auxiliar}</span>` : "";
+                    // Se tiver planejamento prévio, mostra ele. Se não, mostra memória.
+                    let conteudoExtra = "";
+                    if(aula.planejamento) {
+                        conteudoExtra = `<div class="plan-box"><i class="fas fa-thumbtack"></i> <b>Planejado:</b> ${aula.planejamento}</div>`;
+                    } else {
+                        conteudoExtra = `<div class="memory-box"><i class="fas fa-history"></i> ${aula.memoria}</div>`;
+                    }
 
-                    const card = `
-                        <div class="card">
-                            <div class="card-header">
-                                <span class="hora">⏰ ${aula.inicio} - ${aula.fim}</span>
-                                <span class="turma">Turma ${aula.turma}</span>
-                            </div>
-                            <div class="info-sala">
-                                📍 Sala: <b>${aula.sala}</b><br>
-                                📽️ Projetor: <span class="${projetorClass}">${aula.projetor}</span>
-                                ${auxiliarInfo}
-                            </div>
-                            <button class="btn-registrar" onclick="abrirModal('${aula.turma}')">✍️ Registrar Aula</button>
+                    const html = `
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="turma-badge">${aula.turma}</div>
+                            <div class="hora"><i class="far fa-clock"></i> ${aula.inicio} - ${aula.fim}</div>
                         </div>
-                    `;
-                    lista.innerHTML += card;
+                        <div class="card-body">
+                            <div class="info-row"><i class="fas fa-map-marker-alt"></i> Sala ${aula.sala}</div>
+                            ${conteudoExtra}
+                        </div>
+                        <button class="btn-action" onclick="abrirModal('${aula.turma}', '${aula.dataFormatada}', 'REALIZADO')">
+                            <i class="fas fa-check-circle"></i> Registrar Aula Realizada
+                        </button>
+                    </div>`;
+                    lista.innerHTML += html;
                 });
-            })
-            .catch(error => {
-                document.getElementById('loading').innerHTML = "Erro ao carregar. Verifique a internet.";
-                console.error(error);
             });
         }
 
-        function abrirModal(turma) {
-            aulaSelecionada = turma;
-            document.getElementById('modal-turma-info').innerText = "Registrando para a Turma " + turma;
+        // --- CARREGAR PLANEJAMENTO (FUTURO) ---
+        function carregarPlanejamento() {
+            fetch(API_URL + "?action=getPlanejamento")
+            .then(res => res.json())
+            .then(data => {
+                const lista = document.getElementById('lista-planejamento');
+                document.getElementById('loading-plan').style.display = 'none';
+                lista.innerHTML = "";
+
+                data.forEach(dia => {
+                    let htmlDia = `<div class="day-header"><i class="far fa-calendar-alt"></i> ${dia.data}</div>`;
+                    
+                    dia.aulas.forEach(aula => {
+                        // Verifica se já tem algo planejado
+                        let statusPlan = aula.planejamento ? `<span style="color:var(--mid-green)">(${aula.planejamento})</span>` : "<span style='color:#999; font-style:italic'>Nada planejado ainda</span>";
+
+                        htmlDia += `
+                        <div class="card" style="margin-top:10px; border-left: 4px solid var(--mid-green)">
+                            <div class="card-body" style="padding: 10px 15px;">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                    <b>Turma ${aula.turma}</b>
+                                    <span style="font-size:0.8rem; color:#666">${aula.inicio}</span>
+                                </div>
+                                <div style="font-size:0.9rem;">${statusPlan}</div>
+                            </div>
+                            <button class="btn-action" style="font-size:0.8rem; padding:8px" onclick="abrirModal('${aula.turma}', '${aula.dataFormatada}', 'PLANEJADO')">
+                                <i class="fas fa-pencil-alt"></i> Editar Planejamento
+                            </button>
+                        </div>`;
+                    });
+                    lista.innerHTML += htmlDia;
+                });
+            });
+        }
+
+        // --- FUNÇÕES DO MODAL ---
+        function abrirModal(turma, data, tipo) {
             document.getElementById('modal').style.display = 'flex';
+            document.getElementById('modal-titulo').innerText = tipo === 'REALIZADO' ? "Registrar Aula" : "Planejar Aula";
+            document.getElementById('modal-subtitulo').innerText = `Turma ${turma} - ${data}`;
+            
+            // Preenche hidden inputs
+            document.getElementById('input-turma').value = turma;
+            document.getElementById('input-data').value = data;
+            document.getElementById('input-tipo').value = tipo;
+            
+            // Limpa campos
+            document.getElementById('input-conteudo').value = "";
+            document.getElementById('input-obs').value = "";
         }
 
-        function fecharModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
-
-        function salvarRegistro() {
-            const btn = document.querySelector('.btn-salvar');
+        function salvarDados() {
+            const btn = document.querySelector('.btn-save');
             btn.innerText = "Salvando...";
-            btn.disabled = true;
-
+            
             const dados = {
-                action: "salvarAula",
-                turma: aulaSelecionada,
-                conteudo: document.getElementById('conteudo').value,
-                proxima: document.getElementById('proxima').value
+                turma: document.getElementById('input-turma').value,
+                data: document.getElementById('input-data').value,
+                tipo: document.getElementById('input-tipo').value,
+                conteudo: document.getElementById('input-conteudo').value,
+                obs: document.getElementById('input-obs').value
             };
 
-            fetch(API_URL, {
-                method: "POST",
-                body: JSON.stringify(dados)
-            })
-            .then(response => response.json())
+            fetch(API_URL, { method: "POST", body: JSON.stringify(dados) })
+            .then(res => res.json())
             .then(json => {
-                alert("Registro salvo com sucesso!");
-                fecharModal();
-                // Limpa o formulário
-                document.getElementById('conteudo').value = "";
-                document.getElementById('proxima').value = "";
-                btn.innerText = "💾 Salvar no Diário";
-                btn.disabled = false;
+                alert("Salvo com sucesso!");
+                document.getElementById('modal').style.display = 'none';
+                btn.innerText = "Salvar";
+                
+                // Recarrega a aba atual
+                if(dados.tipo === 'REALIZADO') carregarHoje();
+                else carregarPlanejamento();
             })
-            .catch(err => {
-                alert("Erro ao salvar.");
-                btn.innerText = "💾 Salvar no Diário";
-                btn.disabled = false;
-            });
+            .catch(e => { alert("Erro"); btn.innerText = "Salvar"; });
         }
+
+        // Inicia
+        carregarHoje();
     </script>
 </body>
 </html>
