@@ -8,22 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --primary: #1a237e;
-            --primary-light: #534bae;
-            --primary-dark: #000051;
-            --secondary: #00bcd4;
-            --secondary-light: #62efff;
-            --secondary-dark: #008ba3;
-            --success: #4caf50;
-            --warning: #ff9800;
-            --danger: #f44336;
-            --light: #f5f5f5;
-            --dark: #212121;
-            --gray: #757575;
-            --gray-light: #e0e0e0;
-        }
-        
         * {
             margin: 0;
             padding: 0;
@@ -32,31 +16,27 @@
         
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: var(--dark);
+            background: #f0f2f5;
+            color: #333;
             line-height: 1.6;
-            min-height: 100vh;
-            padding-bottom: 80px;
         }
         
         /* Header */
         header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
             color: white;
             padding: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
-            backdrop-filter: blur(10px);
         }
         
         .app-title {
             text-align: center;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
+            margin-bottom: 15px;
         }
         
         .date-nav {
@@ -67,7 +47,6 @@
             border-radius: 10px;
             padding: 12px;
             margin: 10px 0;
-            backdrop-filter: blur(5px);
         }
         
         .nav-btn {
@@ -81,12 +60,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            font-size: 1.2rem;
         }
         
         .nav-btn:hover {
             background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
         }
         
         #display-data {
@@ -116,10 +94,6 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
         }
         
         .tab:hover {
@@ -129,21 +103,14 @@
         
         .tab.active {
             background: white;
-            color: var(--primary);
+            color: #1a237e;
             font-weight: 600;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         /* Container */
         .container {
             padding: 20px;
             display: none;
-            animation: fadeIn 0.4s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .container.active {
@@ -153,52 +120,39 @@
         /* Cards */
         .card {
             background: white;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-left: 5px solid var(--secondary);
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
         
         .card-header {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 18px 20px;
+            background: #f8f9fa;
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--gray-light);
+            border-bottom: 1px solid #e0e0e0;
         }
         
         .turma-badge {
-            background: var(--primary);
+            background: #1a237e;
             color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: 0.5px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
         }
         
         .horario {
             font-weight: 600;
-            color: var(--primary);
-            font-size: 0.95rem;
-            background: rgba(26, 35, 126, 0.1);
-            padding: 6px 12px;
-            border-radius: 6px;
+            color: #1a237e;
         }
         
         .card-body {
-            padding: 20px;
+            padding: 15px;
         }
         
-        /* Infraestrutura */
+        /* Tags */
         .infra-tags {
             display: flex;
             gap: 8px;
@@ -208,92 +162,72 @@
         
         .tag {
             font-size: 0.8rem;
-            padding: 6px 12px;
-            border-radius: 20px;
+            padding: 4px 10px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-weight: 500;
+            gap: 5px;
         }
         
         .tag.sala {
             background: #e3f2fd;
             color: #1565c0;
-            border: 1px solid #bbdefb;
         }
         
         .tag.projetor {
             background: #f3e5f5;
             color: #7b1fa2;
-            border: 1px solid #e1bee7;
         }
         
         .tag.auxiliar {
             background: #e8f5e9;
             color: #2e7d32;
-            border: 1px solid #c8e6c9;
-        }
-        
-        .tag.alert {
-            background: #ffebee;
-            color: #c62828;
-            border: 1px solid #ffcdd2;
         }
         
         /* Status boxes */
         .status-box {
-            padding: 15px;
-            border-radius: 10px;
-            margin: 12px 0;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
             font-size: 0.9rem;
-            line-height: 1.5;
         }
         
         .box-memory {
             background: #fff3e0;
             color: #e65100;
-            border-left: 4px solid #ffb74d;
+            border-left: 4px solid #ff9800;
         }
         
         .box-plan {
             background: #e8f5e9;
             color: #1b5e20;
-            border-left: 4px solid #66bb6a;
+            border-left: 4px solid #4caf50;
         }
         
         .box-done {
             background: #e3f2fd;
             color: #0d47a1;
-            border-left: 4px solid #42a5f5;
+            border-left: 4px solid #2196f3;
         }
         
-        /* Botões de ação */
+        /* Botões */
         .btn-action {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            padding: 14px;
+            background: #2196f3;
             border: none;
             color: white;
             font-weight: 600;
-            font-size: 0.95rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: all 0.3s ease;
+            gap: 8px;
+            transition: background 0.3s;
         }
         
         .btn-action:hover {
-            background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--secondary) 100%);
-        }
-        
-        .btn-action.secundario {
-            background: linear-gradient(135deg, #757575 0%, #9e9e9e 100%);
-        }
-        
-        .btn-action.secundario:hover {
-            background: linear-gradient(135deg, #616161 0%, #757575 100%);
+            background: #1976d2;
         }
         
         /* Modal */
@@ -304,253 +238,131 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            animation: fadeIn 0.3s ease;
         }
         
         .modal-content {
             background: white;
             width: 90%;
             max-width: 500px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
         }
         
         .modal-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            padding: 20px;
-            position: relative;
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: rotate(90deg);
-        }
-        
-        .modal-body {
-            padding: 25px;
-        }
-        
-        .form-group {
             margin-bottom: 20px;
         }
         
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 0.9rem;
+        .modal-header h3 {
+            color: #1a237e;
+            margin-bottom: 5px;
         }
         
-        textarea, input[type="text"] {
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        textarea {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--gray-light);
-            border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
             font-size: 0.95rem;
-            transition: all 0.3s ease;
             resize: vertical;
+            margin-bottom: 15px;
         }
         
-        textarea:focus, input[type="text"]:focus {
+        textarea:focus {
             outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
+            border-color: #2196f3;
         }
         
-        /* Botões do modal */
         .modal-actions {
             display: flex;
             gap: 10px;
-            margin-top: 25px;
         }
         
         .modal-actions button {
             flex: 1;
-            padding: 14px;
+            padding: 12px;
             border: none;
-            border-radius: 10px;
+            border-radius: 6px;
             font-weight: 600;
-            font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            transition: all 0.3s;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            background: #2196f3;
             color: white;
         }
         
         .btn-primary:hover {
-            background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--secondary) 100%);
-            transform: translateY(-2px);
+            background: #1976d2;
         }
         
         .btn-secondary {
             background: #f5f5f5;
-            color: var(--gray);
+            color: #666;
         }
         
         .btn-secondary:hover {
-            background: #eeeeee;
-            color: var(--dark);
+            background: #e0e0e0;
         }
         
-        /* Estado vazio */
-        .empty-state {
+        /* Loading */
+        .loading {
             text-align: center;
-            padding: 60px 20px;
-            color: var(--gray);
+            padding: 40px;
+            color: #666;
         }
         
-        .empty-state i {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            opacity: 0.3;
-        }
-        
-        .empty-state h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-        
-        .empty-state p {
-            font-size: 0.95rem;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-        
-        /* Status loading */
-        #loading-status {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .card-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .horario {
-                align-self: flex-start;
-            }
-            
-            .modal-content {
-                width: 95%;
-            }
-            
-            .modal-actions {
-                flex-direction: column;
-            }
-            
-            .tabs {
-                flex-direction: column;
-            }
-            
-            .tab {
-                padding: 15px;
-            }
-        }
-        
-        /* Animações de loading */
         .loading-spinner {
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            border: 3px solid rgba(26, 35, 126, 0.3);
             border-radius: 50%;
-            border-top-color: white;
+            border-top-color: #1a237e;
             animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
         }
         
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
         
-        /* Alertas */
-        .alert {
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin: 15px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            animation: slideIn 0.3s ease;
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        .alert-success {
-            background: #e8f5e9;
-            color: #1b5e20;
-            border-left: 4px solid #4caf50;
-        }
-        
-        .alert-error {
+        /* Erro */
+        .error {
             background: #ffebee;
             color: #c62828;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px;
             border-left: 4px solid #f44336;
         }
         
-        .alert-warning {
-            background: #fff3e0;
-            color: #e65100;
-            border-left: 4px solid #ff9800;
-        }
-        
-        /* Estilo para a semana */
+        /* Semana */
         .semana-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            background: #1a237e;
             color: white;
-            padding: 15px 20px;
-            border-radius: 15px;
+            padding: 15px;
+            border-radius: 10px;
             margin-bottom: 20px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
         .dia-card {
             background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            border-top: 5px solid var(--secondary);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
         .dia-header {
@@ -559,21 +371,30 @@
             align-items: center;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--gray-light);
+            border-bottom: 1px solid #e0e0e0;
         }
         
         .dia-title {
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a237e;
         }
         
         .dia-date {
-            color: var(--gray);
+            color: #666;
             font-size: 0.9rem;
-            background: var(--gray-light);
-            padding: 4px 10px;
-            border-radius: 20px;
+        }
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -587,7 +408,7 @@
             <button class="nav-btn" onclick="navegar(-1)">
                 <i class="fas fa-chevron-left"></i>
             </button>
-            <div id="display-data">Carregando...</div>
+            <div id="display-data">Hoje</div>
             <button class="nav-btn" onclick="navegar(1)">
                 <i class="fas fa-chevron-right"></i>
             </button>
@@ -606,171 +427,66 @@
     <main>
         <div id="view-dia" class="container active">
             <div id="dia-content">
-                <!-- Conteúdo do modo diário será carregado aqui -->
+                <div class="loading">
+                    <span class="loading-spinner"></span> Carregando aulas...
+                </div>
             </div>
         </div>
         
         <div id="view-semana" class="container">
             <div id="semana-content">
-                <!-- Conteúdo do modo semanal será carregado aqui -->
+                <div class="loading">
+                    <span class="loading-spinner"></span> Carregando planejamento...
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- Modal para registro/edição -->
+    <!-- Modal -->
     <div id="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modal-titulo">Registro de Aula</h3>
-                <button class="modal-close" onclick="fecharModal()">
-                    <i class="fas fa-times"></i>
-                </button>
+                <p id="modal-subtitulo" style="color: #666; font-size: 0.9rem;"></p>
             </div>
             <div class="modal-body">
-                <p id="modal-subtitulo" style="color: var(--gray); margin-bottom: 20px; font-size: 0.9rem;"></p>
-                
-                <div class="form-group">
-                    <label for="input-conteudo">Conteúdo da Aula:</label>
-                    <textarea id="input-conteudo" rows="4" placeholder="Descreva o conteúdo que será/minha aula..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label for="input-obs">Observações:</label>
-                    <textarea id="input-obs" rows="3" placeholder="Observações importantes, materiais necessários, etc..."></textarea>
-                </div>
+                <textarea id="input-conteudo" rows="4" placeholder="Conteúdo da aula..."></textarea>
+                <textarea id="input-obs" rows="3" placeholder="Observações..."></textarea>
                 
                 <input type="hidden" id="input-data">
                 <input type="hidden" id="input-turma">
                 <input type="hidden" id="input-tipo">
-                
-                <div class="modal-actions">
-                    <button class="btn-primary" onclick="salvar()">
-                        <i class="fas fa-save"></i> Salvar
-                    </button>
-                    <button class="btn-secondary" onclick="fecharModal()">
-                        <i class="fas fa-times"></i> Cancelar
-                    </button>
-                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="salvar()">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+                <button class="btn-secondary" onclick="fecharModal()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
             </div>
         </div>
     </div>
 
     <script>
         // ================= CONFIGURAÇÃO =================
-        // SUBSTITUA A URL ABAIXO PELA URL DO SEU WEB APP DO GOOGLE APPS SCRIPT
-        const API_URL = "https://script.google.com/macros/s/AKfycbz7p5jDNcAwz_hXhLGlBquHDFujKoFQO9ZYd3F3HtIk-7SdDeZ2RO3F8JyDF30GM_m5/exec";
+        // SUBSTITUA ESTA URL PELA URL DO SEU WEB APP
+        const API_URL = "https://script.google.com/macros/s/AKfycbwUiGEaHqeEYjlTzWM78ryydmQkQqoPwybgl7PstUJySVPrpRqYW8wh_1rf16rRVWYL/exec";
         // ================================================
         
         // Variáveis globais
         let modo = 'dia';
         let offsetDia = 0;
         let offsetSemana = 0;
-        let carregando = false;
-        let alertaAtivo = null;
-
+        
         // Elementos do DOM
         const diaContent = document.getElementById('dia-content');
         const semanaContent = document.getElementById('semana-content');
         const displayData = document.getElementById('display-data');
-        const loadingStatus = document.getElementById('loading-status');
-
-        // ================= FUNÇÕES UTILITÁRIAS =================
-        
-        function mostrarAlerta(mensagem, tipo = 'success', tempo = 3000) {
-            if (alertaAtivo) {
-                alertaAtivo.remove();
-            }
-            
-            const alert = document.createElement('div');
-            alert.className = `alert alert-${tipo}`;
-            alert.innerHTML = `
-                <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'exclamation-triangle'}"></i>
-                <div>${mensagem}</div>
-            `;
-            
-            alert.style.position = 'fixed';
-            alert.style.top = '90px';
-            alert.style.left = '50%';
-            alert.style.transform = 'translateX(-50%)';
-            alert.style.zIndex = '9999';
-            alert.style.width = '90%';
-            alert.style.maxWidth = '500px';
-            alert.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
-            
-            document.body.appendChild(alert);
-            alertaAtivo = alert;
-            
-            setTimeout(() => {
-                if (alertaAtivo === alert) {
-                    alert.style.opacity = '0';
-                    alert.style.transition = 'opacity 0.5s';
-                    setTimeout(() => alert.remove(), 500);
-                    alertaAtivo = null;
-                }
-            }, tempo);
-        }
-        
-        function mostrarCarregando(mensagem = 'Carregando...') {
-            loadingStatus.innerHTML = `<span class="loading-spinner"></span> ${mensagem}`;
-            carregando = true;
-        }
-        
-        function esconderCarregando() {
-            loadingStatus.innerHTML = '';
-            carregando = false;
-        }
-        
-        function mostrarErro(mensagem, container) {
-            container.innerHTML = `
-                <div class="alert alert-error">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div>
-                        <strong>Erro:</strong> ${mensagem}
-                        <br>
-                        <small>Tente novamente ou verifique sua conexão.</small>
-                    </div>
-                </div>
-                <button class="btn-action" onclick="${modo === 'dia' ? 'carregarDia' : 'carregarSemana'}()" style="margin-top: 20px;">
-                    <i class="fas fa-redo"></i> Tentar Novamente
-                </button>
-            `;
-        }
-        
-        function formatarDataParaExibicao(dataString) {
-            // Converte dd/mm/aaaa para data extensa
-            const partes = dataString.split('/');
-            if (partes.length !== 3) return dataString;
-            
-            const [dia, mes, ano] = partes;
-            const data = new Date(ano, mes - 1, dia);
-            
-            const diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-            const meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
-            
-            const diaSemana = diasSemana[data.getDay()];
-            const nomeMes = meses[data.getMonth()];
-            
-            return `${diaSemana}, ${dia} de ${nomeMes} de ${ano}`;
-        }
-        
-        function getDataAtualOffset(offset) {
-            const data = new Date();
-            data.setDate(data.getDate() + offset);
-            return data;
-        }
-        
-        function formatarDataBR(data) {
-            const dia = String(data.getDate()).padStart(2, '0');
-            const mes = String(data.getMonth() + 1).padStart(2, '0');
-            const ano = data.getFullYear();
-            return `${dia}/${mes}/${ano}`;
-        }
         
         // ================= FUNÇÕES PRINCIPAIS =================
         
         function mudarModo(m) {
-            if (carregando) return;
-            
             modo = m;
             
             // Atualizar tabs
@@ -789,8 +505,6 @@
         }
         
         function navegar(dir) {
-            if (carregando) return;
-            
             if (modo === 'dia') {
                 offsetDia += dir;
                 carregarDia();
@@ -800,88 +514,52 @@
             }
         }
         
-        function renderInfra(aula) {
-            if (!aula) return '';
-            
-            let html = `<div class="infra-tags">`;
-            
-            // Sala
-            html += `<div class="tag sala">
-                <i class="fas fa-door-closed"></i> ${aula.sala || 'Não definida'}
-            </div>`;
-            
-            // Projetor
-            if (aula.projetor && aula.projetor.trim() !== '') {
-                const isRuim = aula.projetor.toLowerCase().includes('ruim') || 
-                              aula.projetor.toLowerCase().includes('quebrado') ||
-                              aula.projetor.toLowerCase().includes('problema');
-                
-                html += `<div class="tag projetor ${isRuim ? 'alert' : ''}">
-                    <i class="fas fa-video"></i> ${aula.projetor}
-                </div>`;
-            }
-            
-            // Auxiliar
-            if (aula.auxiliar && aula.auxiliar.trim() !== '') {
-                html += `<div class="tag auxiliar">
-                    <i class="fas fa-hands-helping"></i> ${aula.auxiliar}
-                </div>`;
-            }
-            
-            return html + `</div>`;
-        }
-        
-        // ================= MODO DIÁRIO =================
-        
         function carregarDia() {
-            if (carregando) return;
-            
-            mostrarCarregando('Carregando aula...');
-            diaContent.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><br>Carregando aulas...</div>';
+            diaContent.innerHTML = '<div class="loading"><span class="loading-spinner"></span> Carregando...</div>';
             
             const url = `${API_URL}?action=getDia&offset=${offsetDia}`;
+            console.log('URL:', url); // Para debug
             
             fetch(url)
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Erro HTTP: ${response.status}`);
-                    }
+                    console.log('Status:', response.status); // Para debug
                     return response.json();
                 })
                 .then(json => {
-                    esconderCarregando();
+                    console.log('Resposta:', json); // Para debug
                     
                     if (json.status === "erro") {
-                        mostrarErro(json.message, diaContent);
-                        displayData.innerText = "Erro";
+                        diaContent.innerHTML = `
+                            <div class="error">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <h3>Erro</h3>
+                                <p>${json.message}</p>
+                                <button class="btn-action" onclick="carregarDia()" style="margin-top: 10px;">
+                                    Tentar Novamente
+                                </button>
+                            </div>
+                        `;
                         return;
                     }
                     
-                    // Atualizar data exibida
-                    const dataAtual = getDataAtualOffset(offsetDia);
-                    const hoje = new Date();
-                    const hojeBR = formatarDataBR(hoje);
-                    const dataAtualBR = formatarDataBR(dataAtual);
-                    
-                    let dataTexto = json.dataExtenso || formatarDataParaExibicao(dataAtualBR);
-                    
-                    if (dataAtualBR === hojeBR) {
-                        dataTexto += ' (Hoje)';
+                    // Atualizar display
+                    let dataTexto = json.dataExtenso || "Data";
+                    if (offsetDia === 0) {
+                        dataTexto += " (Hoje)";
                     } else if (offsetDia === 1) {
-                        dataTexto += ' (Amanhã)';
+                        dataTexto += " (Amanhã)";
                     } else if (offsetDia === -1) {
-                        dataTexto += ' (Ontem)';
+                        dataTexto += " (Ontem)";
                     }
-                    
-                    displayData.innerText = dataTexto;
+                    displayData.textContent = dataTexto;
                     
                     // Renderizar aulas
                     if (!json.aulas || json.aulas.length === 0) {
                         diaContent.innerHTML = `
-                            <div class="empty-state">
-                                <i class="fas fa-calendar-times"></i>
-                                <h3>Nenhuma aula agendada</h3>
-                                <p>Não há aulas para esta data no seu horário.</p>
+                            <div style="text-align: center; padding: 40px; color: #666;">
+                                <i class="fas fa-calendar-times" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                                <h3>Nenhuma aula</h3>
+                                <p>Não há aulas agendadas para este dia.</p>
                             </div>
                         `;
                         return;
@@ -890,122 +568,132 @@
                     let html = '';
                     
                     json.aulas.forEach(aula => {
-                        let status = '';
+                        let statusHtml = '';
                         let botaoTexto = 'Registrar Aula';
                         let botaoIcone = 'fa-pen';
-                        let botaoTipo = 'REALIZADO';
                         
                         if (aula.tipoHoje === "REALIZADO") {
-                            status = `
+                            statusHtml = `
                                 <div class="status-box box-done">
                                     <i class="fas fa-check-circle"></i>
                                     <strong>Aula Realizada:</strong>
-                                    <div style="margin-top: 5px;">${aula.conteudoHoje || 'Sem descrição'}</div>
-                                    ${aula.obsHoje ? `<div style="margin-top: 8px; font-style: italic;">Obs: ${aula.obsHoje}</div>` : ''}
+                                    <div>${aula.conteudoHoje || 'Sem descrição'}</div>
+                                    ${aula.obsHoje ? `<div style="margin-top: 5px;"><small>Obs: ${aula.obsHoje}</small></div>` : ''}
                                 </div>
                             `;
                             botaoTexto = 'Editar Registro';
                             botaoIcone = 'fa-edit';
                         } else if (aula.tipoHoje === "PLANEJADO") {
-                            status = `
+                            statusHtml = `
                                 <div class="status-box box-plan">
                                     <i class="fas fa-thumbtack"></i>
                                     <strong>Planejado:</strong>
-                                    <div style="margin-top: 5px;">${aula.conteudoHoje || 'Sem planejamento'}</div>
+                                    <div>${aula.conteudoHoje || 'Sem planejamento'}</div>
                                 </div>
                             `;
                             botaoTexto = 'Registrar Realizado';
                             botaoIcone = 'fa-check';
-                        } else {
-                            status = `
-                                <div class="status-box box-memory">
-                                    <i class="fas fa-history"></i>
-                                    <strong>Última Aula:</strong>
-                                    <div style="margin-top: 5px;">${aula.memoria || 'Sem registros anteriores'}</div>
+                        }
+                        
+                        let infraHtml = `
+                            <div class="infra-tags">
+                                <div class="tag sala">
+                                    <i class="fas fa-door-closed"></i> ${aula.sala || 'N/A'}
+                                </div>
+                        `;
+                        
+                        if (aula.projetor) {
+                            infraHtml += `
+                                <div class="tag projetor">
+                                    <i class="fas fa-video"></i> ${aula.projetor}
                                 </div>
                             `;
                         }
                         
+                        if (aula.auxiliar) {
+                            infraHtml += `
+                                <div class="tag auxiliar">
+                                    <i class="fas fa-hands-helping"></i> ${aula.auxiliar}
+                                </div>
+                            `;
+                        }
+                        
+                        infraHtml += '</div>';
+                        
                         html += `
-                        <div class="card">
-                            <div class="card-header">
-                                <span class="turma-badge">${aula.turma}</span>
-                                <span class="horario">${aula.inicio} - ${aula.fim}</span>
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="turma-badge">${aula.turma}</span>
+                                    <span class="horario">${aula.inicio} - ${aula.fim}</span>
+                                </div>
+                                <div class="card-body">
+                                    ${infraHtml}
+                                    <div class="status-box box-memory">
+                                        <i class="fas fa-history"></i>
+                                        <strong>Última Aula:</strong>
+                                        <div>${aula.memoria}</div>
+                                    </div>
+                                    ${statusHtml}
+                                </div>
+                                <button class="btn-action" onclick="abrirModal('${aula.turma}', '${aula.dataFormatada}', 'REALIZADO', '${(aula.conteudoHoje || '').replace(/'/g, "\\'")}', '${(aula.obsHoje || '').replace(/'/g, "\\'")}')">
+                                    <i class="fas ${botaoIcone}"></i> ${botaoTexto}
+                                </button>
                             </div>
-                            <div class="card-body">
-                                ${renderInfra(aula)}
-                                ${status}
-                            </div>
-                            <button class="btn-action" onclick="abrirModal(
-                                '${aula.turma.replace(/'/g, "\\'")}',
-                                '${aula.dataFormatada}',
-                                'REALIZADO',
-                                '${(aula.conteudoHoje || '').replace(/'/g, "\\'")}',
-                                '${(aula.obsHoje || '').replace(/'/g, "\\'")}'
-                            )">
-                                <i class="fas ${botaoIcone}"></i> ${botaoTexto}
-                            </button>
-                        </div>
                         `;
                     });
                     
                     diaContent.innerHTML = html;
                 })
                 .catch(error => {
-                    esconderCarregando();
-                    mostrarErro(`Falha ao carregar: ${error.message}`, diaContent);
-                    console.error('Erro ao carregar dia:', error);
+                    console.error('Erro:', error);
+                    diaContent.innerHTML = `
+                        <div class="error">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Erro de Conexão</h3>
+                            <p>Não foi possível conectar ao servidor.</p>
+                            <p><small>${error.message}</small></p>
+                            <button class="btn-action" onclick="carregarDia()" style="margin-top: 10px;">
+                                <i class="fas fa-redo"></i> Tentar Novamente
+                            </button>
+                        </div>
+                    `;
                 });
         }
         
-        // ================= MODO SEMANAL =================
-        
         function carregarSemana() {
-            if (carregando) return;
-            
-            mostrarCarregando('Carregando planejamento...');
-            semanaContent.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-spin"></i><br>Carregando planejamento da semana...</div>';
+            semanaContent.innerHTML = '<div class="loading"><span class="loading-spinner"></span> Carregando...</div>';
             
             const url = `${API_URL}?action=getSemana&offset=${offsetSemana}`;
             
             fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Erro HTTP: ${response.status}`);
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(json => {
-                    esconderCarregando();
-                    
                     if (json.status === "erro") {
-                        mostrarErro(json.message, semanaContent);
-                        displayData.innerText = "Erro";
+                        semanaContent.innerHTML = `
+                            <div class="error">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <h3>Erro</h3>
+                                <p>${json.message}</p>
+                            </div>
+                        `;
                         return;
                     }
                     
-                    // Atualizar display com número da semana
-                    const semanaNum = json.semanaDoAno || 1;
-                    let semanaTexto = `Semana ${semanaNum}`;
-                    
+                    // Atualizar display
+                    let semanaTexto = `Semana ${json.semanaDoAno || '--'}`;
                     if (offsetSemana === 0) {
                         semanaTexto += ' (Esta semana)';
                     } else if (offsetSemana === 1) {
                         semanaTexto += ' (Próxima semana)';
                     } else if (offsetSemana === -1) {
                         semanaTexto += ' (Semana passada)';
-                    } else if (offsetSemana > 0) {
-                        semanaTexto += ` (Em ${offsetSemana} semana${offsetSemana > 1 ? 's' : ''})`;
-                    } else {
-                        semanaTexto += ` (Há ${Math.abs(offsetSemana)} semana${Math.abs(offsetSemana) > 1 ? 's' : ''})`;
                     }
-                    
-                    displayData.innerText = semanaTexto;
+                    displayData.textContent = semanaTexto;
                     
                     if (!json.dias || json.dias.length === 0) {
                         semanaContent.innerHTML = `
-                            <div class="empty-state">
-                                <i class="fas fa-calendar-week"></i>
+                            <div style="text-align: center; padding: 40px; color: #666;">
+                                <i class="fas fa-calendar-times" style="font-size: 2rem; margin-bottom: 10px;"></i>
                                 <h3>Semana sem aulas</h3>
                                 <p>Não há aulas planejadas para esta semana.</p>
                             </div>
@@ -1014,65 +702,45 @@
                     }
                     
                     let html = `<div class="semana-header">
-                        <h3 style="margin-bottom: 5px;">Semana ${semanaNum}</h3>
-                        <p style="opacity: 0.9; font-size: 0.9rem;">Planejamento de aulas</p>
+                        <h3>Semana ${json.semanaDoAno || '--'}</h3>
+                        <p>Planejamento de aulas</p>
                     </div>`;
                     
                     json.dias.forEach(dia => {
                         html += `
-                        <div class="dia-card">
-                            <div class="dia-header">
-                                <div class="dia-title">${dia.data}</div>
-                                <div class="dia-date">${dia.dataBR}</div>
-                            </div>
+                            <div class="dia-card">
+                                <div class="dia-header">
+                                    <div class="dia-title">${dia.data}</div>
+                                    <div class="dia-date">${dia.dataBR}</div>
+                                </div>
                         `;
                         
                         if (!dia.aulas || dia.aulas.length === 0) {
                             html += `
-                                <div style="text-align: center; padding: 30px; color: #999;">
-                                    <i class="fas fa-calendar-times" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                                <div style="text-align: center; padding: 20px; color: #999;">
+                                    <i class="fas fa-calendar-times"></i>
                                     <p>Nenhuma aula neste dia</p>
                                 </div>
                             `;
                         } else {
                             dia.aulas.forEach(aula => {
-                                let conteudo = aula.conteudoHoje || 'Nenhum planejamento registrado';
-                                let tipo = aula.tipoHoje || '';
-                                
                                 html += `
-                                <div style="background: #f8f9fa; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                        <strong style="color: var(--primary);">${aula.turma}</strong>
-                                        <small style="color: var(--gray);">${aula.inicio} - ${aula.fim}</small>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 10px;">
-                                        <div style="font-size: 0.9rem; color: #666;">
-                                            <i class="fas fa-door-closed"></i> ${aula.sala}
-                                            ${aula.projetor ? ` • <i class="fas fa-video"></i> ${aula.projetor}` : ''}
-                                            ${aula.auxiliar ? ` • <i class="fas fa-hands-helping"></i> ${aula.auxiliar}` : ''}
+                                    <div style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                            <strong>${aula.turma}</strong>
+                                            <small>${aula.inicio} - ${aula.fim}</small>
                                         </div>
-                                    </div>
-                                    
-                                    <div style="background: ${tipo === 'PLANEJADO' ? '#e8f5e9' : '#f5f5f5'}; 
-                                         padding: 12px; border-radius: 8px; border-left: 4px solid ${tipo === 'PLANEJADO' ? '#66bb6a' : '#e0e0e0'};">
-                                        <div style="font-size: 0.9rem; color: ${tipo === 'PLANEJADO' ? '#1b5e20' : '#666'};">
-                                            ${tipo === 'PLANEJADO' ? '<i class="fas fa-thumbtack"></i> <strong>Planejado:</strong> ' : ''}
-                                            ${conteudo}
+                                        <div style="margin-bottom: 10px;">
+                                            <small>Sala: ${aula.sala}</small>
                                         </div>
+                                        <div style="background: #e8f5e9; padding: 10px; border-radius: 6px; border-left: 4px solid #4caf50;">
+                                            <strong>Planejado:</strong>
+                                            <div>${aula.conteudoHoje || 'Nenhum planejamento'}</div>
+                                        </div>
+                                        <button class="btn-action" onclick="abrirModal('${aula.turma}', '${dia.dataBR}', 'PLANEJADO', '${(aula.conteudoHoje || '').replace(/'/g, "\\'")}', '')" style="margin-top: 10px; padding: 10px; font-size: 0.9rem;">
+                                            <i class="fas fa-edit"></i> Editar Planejamento
+                                        </button>
                                     </div>
-                                    
-                                    <button class="btn-action secundario" onclick="abrirModal(
-                                        '${aula.turma.replace(/'/g, "\\'")}',
-                                        '${dia.dataBR}',
-                                        'PLANEJADO',
-                                        '${(aula.conteudoHoje || '').replace(/'/g, "\\'")}',
-                                        ''
-                                    )" style="margin-top: 10px; padding: 10px; font-size: 0.85rem;">
-                                        <i class="fas ${tipo === 'PLANEJADO' ? 'fa-edit' : 'fa-plus'}"></i>
-                                        ${tipo === 'PLANEJADO' ? 'Editar Planejamento' : 'Criar Planejamento'}
-                                    </button>
-                                </div>
                                 `;
                             });
                         }
@@ -1083,37 +751,30 @@
                     semanaContent.innerHTML = html;
                 })
                 .catch(error => {
-                    esconderCarregando();
-                    mostrarErro(`Falha ao carregar: ${error.message}`, semanaContent);
-                    console.error('Erro ao carregar semana:', error);
+                    semanaContent.innerHTML = `
+                        <div class="error">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Erro de Conexão</h3>
+                            <p>${error.message}</p>
+                        </div>
+                    `;
                 });
         }
         
-        // ================= FUNÇÕES DO MODAL =================
+        // ================= MODAL =================
         
         function abrirModal(turma, data, tipo, conteudo, obs) {
-            // Limpar caracteres de escape
-            const turmaDisplay = turma.replace(/\\'/g, "'");
-            const conteudoDisplay = conteudo.replace(/\\'/g, "'");
-            const obsDisplay = obs.replace(/\\'/g, "'");
-            
             document.getElementById('modal').style.display = 'flex';
-            document.getElementById('modal-titulo').innerText = 
-                tipo === 'PLANEJADO' ? 'Planejamento de Aula' : 'Registro de Aula';
-            
-            document.getElementById('modal-subtitulo').innerText = 
-                `${turmaDisplay} • ${data}`;
+            document.getElementById('modal-titulo').textContent = tipo === 'PLANEJADO' ? 'Planejamento' : 'Registro de Aula';
+            document.getElementById('modal-subtitulo').textContent = `${turma} - ${data}`;
             
             document.getElementById('input-turma').value = turma;
             document.getElementById('input-data').value = data;
             document.getElementById('input-tipo').value = tipo;
-            document.getElementById('input-conteudo').value = conteudoDisplay;
-            document.getElementById('input-obs').value = obsDisplay;
+            document.getElementById('input-conteudo').value = conteudo || '';
+            document.getElementById('input-obs').value = obs || '';
             
-            // Focar no textarea
-            setTimeout(() => {
-                document.getElementById('input-conteudo').focus();
-            }, 100);
+            document.getElementById('input-conteudo').focus();
         }
         
         function fecharModal() {
@@ -1121,156 +782,76 @@
         }
         
         function salvar() {
-            const btn = document.querySelector('.btn-primary');
-            const originalText = btn.innerHTML;
-            
-            // Validar campos
             const conteudo = document.getElementById('input-conteudo').value.trim();
             if (!conteudo) {
-                mostrarAlerta('Por favor, preencha o conteúdo da aula.', 'warning');
-                document.getElementById('input-conteudo').focus();
+                alert('Por favor, preencha o conteúdo da aula.');
                 return;
             }
             
-            // Preparar payload
             const payload = {
                 turma: document.getElementById('input-turma').value,
                 data: document.getElementById('input-data').value,
                 tipo: document.getElementById('input-tipo').value,
                 conteudo: conteudo,
-                obs: document.getElementById('input-obs').value.trim() || ""
+                obs: document.getElementById('input-obs').value.trim()
             };
             
-            // Mostrar estado de carregamento
+            const btn = document.querySelector('.btn-primary');
+            const originalText = btn.innerHTML;
             btn.innerHTML = '<span class="loading-spinner"></span> Salvando...';
             btn.disabled = true;
             
-            // Enviar para o servidor
             fetch(API_URL, {
                 method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Erro HTTP: ${response.status}`);
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(res => {
-                // Restaurar botão
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 
                 if (res.status === "erro") {
-                    mostrarAlerta('Erro ao salvar: ' + res.message, 'error');
+                    alert('Erro: ' + res.message);
                     return;
                 }
                 
-                // Fechar modal e mostrar sucesso
+                alert(res.message || 'Salvo com sucesso!');
                 fecharModal();
-                mostrarAlerta(res.message || 'Registro salvo com sucesso!', 'success');
                 
                 // Recarregar dados
-                setTimeout(() => {
-                    if (modo === 'dia') {
-                        carregarDia();
-                    } else {
-                        carregarSemana();
-                    }
-                }, 500);
+                if (modo === 'dia') {
+                    carregarDia();
+                } else {
+                    carregarSemana();
+                }
             })
             .catch(error => {
-                // Restaurar botão
                 btn.innerHTML = originalText;
                 btn.disabled = false;
-                
-                mostrarAlerta('Erro de conexão: ' + error.message, 'error');
-                console.error('Erro ao salvar:', error);
+                alert('Erro de conexão: ' + error.message);
             });
         }
         
         // ================= INICIALIZAÇÃO =================
         
         document.addEventListener('DOMContentLoaded', function() {
-            // Verificar se a URL da API está configurada
-            if (API_URL.includes('SUA_URL') || API_URL.includes('https://script.google.com/macros/s/AKfycbz7p5jDNcAwz_hXhLGlBquHDFujKoFQO9ZYd3F3HtIk-7SdDeZ2RO3F8JyDF30GM_m5/exec')) {
+            // Verificar configuração
+            if (API_URL.includes('https://script.google.com/macros/s/AKfycbwUiGEaHqeEYjlTzWM78ryydmQkQqoPwybgl7PstUJySVPrpRqYW8wh_1rf16rRVWYL/exec')) {
                 diaContent.innerHTML = `
-                    <div class="alert alert-warning">
+                    <div class="error">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <div>
-                            <strong>Configuração necessária:</strong>
-                            <p style="margin-top: 8px; font-size: 0.9rem;">
-                                1. Publique seu Apps Script como Web App<br>
-                                2. Copie a URL fornecida<br>
-                                3. Substitua a variável API_URL no código<br>
-                                4. Recarregue esta página
-                            </p>
-                        </div>
+                        <h3>Configuração Necessária</h3>
+                        <p>Substitua a variável API_URL no código JavaScript pela URL do seu Web App do Google Apps Script.</p>
+                        <p><small>Linha aproximadamente 670</small></p>
                     </div>
                 `;
-                displayData.innerText = 'Configuração Pendente';
                 return;
             }
             
-            // Configurar eventos
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && document.getElementById('modal').style.display === 'flex') {
-                    fecharModal();
-                }
-                
-                // Atalhos de navegação
-                if (e.key === 'ArrowLeft' && !e.ctrlKey) {
-                    e.preventDefault();
-                    navegar(-1);
-                } else if (e.key === 'ArrowRight' && !e.ctrlKey) {
-                    e.preventDefault();
-                    navegar(1);
-                }
-            });
-            
-            // Fechar modal ao clicar fora
-            document.getElementById('modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    fecharModal();
-                }
-            });
-            
-            // Carregar dados iniciais
+            // Iniciar
             carregarDia();
         });
-        
-        // Expor funções para debug
-        window.debug = {
-            recarregar: function() {
-                if (modo === 'dia') carregarDia();
-                else carregarSemana();
-            },
-            testarAPI: function() {
-                mostrarCarregando('Testando API...');
-                fetch(API_URL + '?action=getDia&offset=0')
-                    .then(r => r.json())
-                    .then(json => {
-                        esconderCarregando();
-                        console.log('Resposta API:', json);
-                        mostrarAlerta('API funcionando! Status: ' + (json.status || 'OK'), 'success');
-                    })
-                    .catch(err => {
-                        esconderCarregando();
-                        console.error('Erro API:', err);
-                        mostrarAlerta('Erro na API: ' + err.message, 'error');
-                    });
-            },
-            mostrarData: function() {
-                const hoje = new Date();
-                console.log('Hoje:', formatarDataBR(hoje));
-                console.log('Offset dia:', offsetDia);
-                console.log('Offset semana:', offsetSemana);
-            }
-        };
     </script>
 </body>
 </html>
-
