@@ -22,7 +22,6 @@
             padding-bottom: 20px;
         }
         
-        /* Header */
         header {
             background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
             color: white;
@@ -77,7 +76,6 @@
             padding: 0 10px;
         }
         
-        /* Tabs */
         .tabs {
             display: flex;
             background: rgba(255, 255, 255, 0.1);
@@ -108,7 +106,6 @@
             font-weight: 600;
         }
         
-        /* Container */
         .container {
             padding: 15px;
             display: none;
@@ -118,7 +115,6 @@
             display: block;
         }
         
-        /* Cards */
         .card {
             background: white;
             border-radius: 10px;
@@ -156,7 +152,6 @@
             padding: 15px;
         }
         
-        /* Tags */
         .infra-tags {
             display: flex;
             gap: 8px;
@@ -188,7 +183,6 @@
             color: #2e7d32;
         }
         
-        /* Status boxes */
         .status-box {
             padding: 10px;
             border-radius: 6px;
@@ -215,7 +209,6 @@
             border-left: 3px solid #2196f3;
         }
         
-        /* Botões */
         .btn-action {
             width: 100%;
             padding: 12px;
@@ -236,7 +229,6 @@
             background: #2980b9;
         }
         
-        /* Modal */
         #modal {
             display: none;
             position: fixed;
@@ -290,6 +282,14 @@
             border-color: #3498db;
         }
         
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
         .modal-actions {
             display: flex;
             gap: 10px;
@@ -324,7 +324,6 @@
             background: #e0e0e0;
         }
         
-        /* Loading */
         .loading {
             text-align: center;
             padding: 40px 20px;
@@ -346,7 +345,6 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Erro */
         .error {
             background: #ffebee;
             color: #c62828;
@@ -361,7 +359,18 @@
             margin-bottom: 10px;
         }
         
-        /* Semana */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
         .semana-header {
             background: #2c3e50;
             color: white;
@@ -399,7 +408,36 @@
             font-size: 0.8rem;
         }
         
-        /* Status */
+        .aula-item {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .aula-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .aula-turma {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .aula-horario {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .aula-conteudo {
+            font-size: 0.85rem;
+            color: #555;
+        }
+        
         #status {
             font-size: 0.8rem;
             text-align: center;
@@ -407,7 +445,6 @@
             margin-top: 5px;
         }
         
-        /* Responsivo */
         @media (max-width: 480px) {
             .card-header {
                 flex-direction: column;
@@ -428,20 +465,20 @@
         </div>
         
         <div class="date-nav">
-            <button class="nav-btn" onclick="navegar(-1)">
+            <button class="nav-btn" id="btn-prev" title="Dia anterior">
                 <i class="fas fa-chevron-left"></i>
             </button>
-            <div id="display-data">Hoje</div>
-            <button class="nav-btn" onclick="navegar(1)">
+            <div id="display-data">Carregando...</div>
+            <button class="nav-btn" id="btn-next" title="Próximo dia">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
         
         <div class="tabs">
-            <div class="tab active" onclick="mudarModo('dia')">
+            <div class="tab active" data-tab="diario">
                 <i class="fas fa-calendar-day"></i> Diário
             </div>
-            <div class="tab" onclick="mudarModo('semana')">
+            <div class="tab" data-tab="semana">
                 <i class="fas fa-calendar-week"></i> Planejamento
             </div>
         </div>
@@ -450,43 +487,46 @@
     </header>
 
     <main>
-        <div id="view-dia" class="container active">
-            <div id="dia-content">
+        <div class="container active" id="tab-diario">
+            <div id="lista-aulas">
                 <div class="loading">
-                    <span class="loading-spinner"></span> Carregando aulas do dia...
+                    <span class="loading-spinner"></span>
+                    Carregando aulas do dia...
                 </div>
             </div>
         </div>
         
-        <div id="view-semana" class="container">
-            <div id="semana-content">
+        <div class="container" id="tab-semana">
+            <div id="lista-semana">
                 <div class="loading">
-                    <span class="loading-spinner"></span> Carregando planejamento da semana...
+                    <span class="loading-spinner"></span>
+                    Carregando planejamento da semana...
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Modal para registro/edição -->
     <div id="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modal-titulo">Registro de Aula</h3>
-                <p id="modal-subtitulo" style="opacity: 0.9; font-size: 0.85rem;"></p>
+                <h3>Registro de Aula</h3>
+                <div id="modal-info"></div>
             </div>
             <div class="modal-body">
-                <textarea id="input-conteudo" rows="4" placeholder="Descreva o conteúdo da aula..."></textarea>
-                <textarea id="input-obs" rows="3" placeholder="Observações importantes..."></textarea>
+                <input type="hidden" id="modal-turma">
+                <input type="hidden" id="modal-data">
                 
-                <input type="hidden" id="input-data">
-                <input type="hidden" id="input-turma">
-                <input type="hidden" id="input-tipo">
+                <label for="modal-conteudo">Conteúdo da aula:</label>
+                <textarea id="modal-conteudo" rows="4" placeholder="O que foi trabalhado nesta aula?"></textarea>
+                
+                <label for="modal-obs">Observações:</label>
+                <textarea id="modal-obs" rows="3" placeholder="Observações adicionais (opcional)"></textarea>
                 
                 <div class="modal-actions">
-                    <button class="btn-primary" onclick="salvar()">
+                    <button class="btn-primary" id="btn-salvar">
                         <i class="fas fa-save"></i> Salvar
                     </button>
-                    <button class="btn-secondary" onclick="fecharModal()">
+                    <button class="btn-secondary" id="btn-cancelar">
                         <i class="fas fa-times"></i> Cancelar
                     </button>
                 </div>
@@ -495,547 +535,354 @@
     </div>
 
     <script>
-        // ================= CONFIGURAÇÃO =================
-        // SUA URL DO GOOGLE APPS SCRIPT (substitua pela sua)
-        const API_URL_ORIGINAL = "https://script.google.com/macros/s/AKfycbz0g8bOx6CNeY81UhIIgFPOjnMjKu_doxdSAiTGjJ4IVjLuE3BuSL9aCnEFib8LR1Gj/exec";
+        // ==================== CONFIGURAÇÃO ====================
+        // IMPORTANTE: Substitua pela URL do seu Web App publicado!
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3GRlqp4BCiyw4XiX5y-OswRdf1GQ-LirOoeVEWYU-H-iK2s3qQavCwScYPZzilpe8/exec';
         
-        // Função para fazer requisições com proxy se necessário
-        async function fetchAPI(url, options = {}) {
-            const statusDiv = document.getElementById('status');
+        // ==================== ESTADO GLOBAL ====================
+        let offsetDia = 0;
+        let dadosAtuais = null;
+        
+        // ==================== ELEMENTOS DOM ====================
+        const displayData = document.getElementById('display-data');
+        const listaAulas = document.getElementById('lista-aulas');
+        const listaSemana = document.getElementById('lista-semana');
+        const modal = document.getElementById('modal');
+        const statusEl = document.getElementById('status');
+        
+        // ==================== FUNÇÕES DE API ====================
+        
+        async function carregarDia(offset = 0) {
+            offsetDia = offset;
+            listaAulas.innerHTML = `
+                <div class="loading">
+                    <span class="loading-spinner"></span>
+                    Carregando aulas do dia...
+                </div>
+            `;
             
             try {
-                // Tenta primeiro direto
-                statusDiv.innerHTML = '<span class="loading-spinner"></span> Conectando...';
-                statusDiv.style.color = '#2c3e50';
-                
-                const response = await fetch(url, {
-                    ...options,
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...options.headers
-                    }
-                });
+                const url = `${SCRIPT_URL}?action=getDia&offset=${offset}`;
+                const response = await fetch(url);
                 
                 if (!response.ok) {
-                    throw new Error(`Erro HTTP: ${response.status}`);
+                    throw new Error(`HTTP ${response.status}`);
                 }
                 
-                const text = await response.text();
-                statusDiv.innerHTML = '✓ Conectado';
-                statusDiv.style.color = '#27ae60';
+                const data = await response.json();
                 
-                try {
-                    return JSON.parse(text);
-                } catch {
-                    throw new Error('Resposta não é JSON válido');
+                if (data.status === 'erro') {
+                    throw new Error(data.message);
                 }
                 
-            } catch (error) {
-                console.log('Tentando com proxy...', error);
-                
-                // Se falhar, tenta com proxy
-                try {
-                    statusDiv.innerHTML = '<span class="loading-spinner"></span> Usando proxy...';
-                    statusDiv.style.color = '#e67e22';
-                    
-                    const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-                    const proxyResponse = await fetch(proxyUrl, options);
-                    
-                    if (!proxyResponse.ok) {
-                        throw new Error(`Proxy erro: ${proxyResponse.status}`);
-                    }
-                    
-                    const text = await proxyResponse.text();
-                    statusDiv.innerHTML = '✓ Conectado via proxy';
-                    statusDiv.style.color = '#27ae60';
-                    
-                    try {
-                        return JSON.parse(text);
-                    } catch {
-                        throw new Error('Proxy: Resposta não é JSON válido');
-                    }
-                    
-                } catch (proxyError) {
-                    console.error('Erro com proxy:', proxyError);
-                    statusDiv.innerHTML = '✗ Erro de conexão';
-                    statusDiv.style.color = '#e74c3c';
-                    throw proxyError;
-                }
-            }
-        }
-        
-        // ================= VARIÁVEIS GLOBAIS =================
-        let modo = 'dia';
-        let offsetDia = 0;
-        let offsetSemana = 0;
-        
-        // Elementos do DOM
-        const diaContent = document.getElementById('dia-content');
-        const semanaContent = document.getElementById('semana-content');
-        const displayData = document.getElementById('display-data');
-        
-        // ================= FUNÇÕES PRINCIPAIS =================
-        
-        function mudarModo(m) {
-            modo = m;
-            
-            // Atualizar tabs
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
-            
-            if (modo === 'dia') {
-                document.querySelector('.tab:nth-child(1)').classList.add('active');
-                document.getElementById('view-dia').classList.add('active');
-                carregarDia();
-            } else {
-                document.querySelector('.tab:nth-child(2)').classList.add('active');
-                document.getElementById('view-semana').classList.add('active');
-                carregarSemana();
-            }
-        }
-        
-        function navegar(dir) {
-            if (modo === 'dia') {
-                offsetDia += dir;
-                carregarDia();
-            } else {
-                offsetSemana += dir;
-                carregarSemana();
-            }
-        }
-        
-        async function carregarDia() {
-            diaContent.innerHTML = '<div class="loading"><span class="loading-spinner"></span> Carregando...</div>';
-            
-            const url = `${API_URL_ORIGINAL}?action=getDia&offset=${offsetDia}`;
-            console.log('Carregando dia:', url);
-            
-            try {
-                const json = await fetchAPI(url);
-                console.log('Resposta dia:', json);
-                
-                if (json.status === "erro") {
-                    diaContent.innerHTML = `
-                        <div class="error">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <h3>Erro no Servidor</h3>
-                            <p>${json.message}</p>
-                            <button onclick="carregarDia()" style="margin-top: 10px; padding: 8px 15px; background: #3498db; color: white; border: none; border-radius: 4px;">
-                                Tentar Novamente
-                            </button>
-                        </div>
-                    `;
-                    displayData.textContent = "Erro";
-                    return;
-                }
-                
-                // Atualizar display
-                let dataTexto = json.dataExtenso || "Data";
-                if (offsetDia === 0) {
-                    dataTexto = "Hoje - " + dataTexto;
-                } else if (offsetDia === 1) {
-                    dataTexto = "Amanhã - " + dataTexto;
-                } else if (offsetDia === -1) {
-                    dataTexto = "Ontem - " + dataTexto;
-                } else if (offsetDia > 0) {
-                    dataTexto = `Em ${offsetDia} dias - ${dataTexto}`;
-                } else {
-                    dataTexto = `Há ${Math.abs(offsetDia)} dias - ${dataTexto}`;
-                }
-                
-                displayData.textContent = dataTexto;
-                
-                // Renderizar aulas
-                if (!json.aulas || json.aulas.length === 0) {
-                    diaContent.innerHTML = `
-                        <div style="text-align: center; padding: 40px 20px; color: #666;">
-                            <i class="fas fa-calendar-times" style="font-size: 2.5rem; margin-bottom: 15px; opacity: 0.5;"></i>
-                            <h3 style="margin-bottom: 10px;">Nenhuma aula agendada</h3>
-                            <p>Não há aulas para esta data no seu horário.</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                let html = '';
-                
-                json.aulas.forEach(aula => {
-                    // Limpar texto para HTML
-                    const turma = aula.turma || '';
-                    const conteudo = aula.conteudoHoje || '';
-                    const obs = aula.obsHoje || '';
-                    const memoria = aula.memoria || 'Sem registros anteriores';
-                    
-                    let statusHtml = '';
-                    let botaoTexto = 'Registrar Aula';
-                    let botaoIcone = 'fa-pen';
-                    
-                    if (aula.tipoHoje === "REALIZADO") {
-                        statusHtml = `
-                            <div class="status-box box-done">
-                                <i class="fas fa-check-circle"></i>
-                                <strong>Aula Realizada:</strong>
-                                <div style="margin-top: 5px;">${conteudo}</div>
-                                ${obs ? `<div style="margin-top: 5px; font-style: italic;"><small>Obs: ${obs}</small></div>` : ''}
-                            </div>
-                        `;
-                        botaoTexto = 'Editar Registro';
-                        botaoIcone = 'fa-edit';
-                    } else if (aula.tipoHoje === "PLANEJADO") {
-                        statusHtml = `
-                            <div class="status-box box-plan">
-                                <i class="fas fa-thumbtack"></i>
-                                <strong>Planejado:</strong>
-                                <div style="margin-top: 5px;">${conteudo}</div>
-                            </div>
-                        `;
-                        botaoTexto = 'Registrar Realizado';
-                        botaoIcone = 'fa-check';
-                    } else {
-                        statusHtml = `
-                            <div class="status-box box-memory">
-                                <i class="fas fa-history"></i>
-                                <strong>Última Aula:</strong>
-                                <div style="margin-top: 5px;">${memoria}</div>
-                            </div>
-                        `;
-                    }
-                    
-                    let infraHtml = `
-                        <div class="infra-tags">
-                            <div class="tag sala">
-                                <i class="fas fa-door-closed"></i> ${aula.sala || 'N/A'}
-                            </div>
-                    `;
-                    
-                    if (aula.projetor && aula.projetor.trim()) {
-                        infraHtml += `
-                            <div class="tag projetor">
-                                <i class="fas fa-video"></i> ${aula.projetor}
-                            </div>
-                        `;
-                    }
-                    
-                    if (aula.auxiliar && aula.auxiliar.trim()) {
-                        infraHtml += `
-                            <div class="tag auxiliar">
-                                <i class="fas fa-hands-helping"></i> ${aula.auxiliar}
-                            </div>
-                        `;
-                    }
-                    
-                    infraHtml += '</div>';
-                    
-                    html += `
-                        <div class="card">
-                            <div class="card-header">
-                                <span class="turma-badge">${turma}</span>
-                                <span class="horario">${aula.inicio || ''} - ${aula.fim || ''}</span>
-                            </div>
-                            <div class="card-body">
-                                ${infraHtml}
-                                ${statusHtml}
-                            </div>
-                            <button class="btn-action" onclick="abrirModal('${escapeString(turma)}', '${escapeString(aula.dataFormatada)}', 'REALIZADO', '${escapeString(conteudo)}', '${escapeString(obs)}')">
-                                <i class="fas ${botaoIcone}"></i> ${botaoTexto}
-                            </button>
-                        </div>
-                    `;
-                });
-                
-                diaContent.innerHTML = html;
+                dadosAtuais = data;
+                displayData.textContent = data.dataExtenso || 'Sem data';
+                renderizarAulas(data.aulas || []);
+                setStatus('✓ Dados carregados', 'success');
                 
             } catch (error) {
                 console.error('Erro ao carregar dia:', error);
-                diaContent.innerHTML = `
+                listaAulas.innerHTML = `
                     <div class="error">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h3>Erro de Conexão</h3>
-                        <p>Não foi possível carregar os dados.</p>
-                        <p style="font-size: 0.85rem; margin-top: 10px;">${error.message}</p>
-                        <button onclick="carregarDia()" style="margin-top: 15px; padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; font-weight: 600;">
-                            <i class="fas fa-redo"></i> Tentar Novamente
+                        <h3><i class="fas fa-exclamation-triangle"></i> Erro</h3>
+                        <p>${error.message}</p>
+                        <button onclick="carregarDia(${offset})" class="btn-action" style="margin-top: 10px; width: auto; display: inline-flex;">
+                            <i class="fas fa-redo"></i> Tentar novamente
                         </button>
                     </div>
                 `;
-                displayData.textContent = "Erro de Conexão";
+                setStatus('✗ Erro ao carregar', 'error');
             }
         }
         
-        async function carregarSemana() {
-            semanaContent.innerHTML = '<div class="loading"><span class="loading-spinner"></span> Carregando...</div>';
-            
-            const url = `${API_URL_ORIGINAL}?action=getSemana&offset=${offsetSemana}`;
-            console.log('Carregando semana:', url);
+        async function carregarSemana(offset = 0) {
+            listaSemana.innerHTML = `
+                <div class="loading">
+                    <span class="loading-spinner"></span>
+                    Carregando planejamento da semana...
+                </div>
+            `;
             
             try {
-                const json = await fetchAPI(url);
-                console.log('Resposta semana:', json);
+                const url = `${SCRIPT_URL}?action=getSemana&offset=${offset}`;
+                const response = await fetch(url);
                 
-                if (json.status === "erro") {
-                    semanaContent.innerHTML = `
-                        <div class="error">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <h3>Erro no Servidor</h3>
-                            <p>${json.message}</p>
-                        </div>
-                    `;
-                    displayData.textContent = "Erro";
-                    return;
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
                 }
                 
-                // Atualizar display
-                let semanaTexto = `Semana ${json.semanaDoAno || '--'}`;
-                if (offsetSemana === 0) {
-                    semanaTexto += ' (Esta semana)';
-                } else if (offsetSemana === 1) {
-                    semanaTexto += ' (Próxima semana)';
-                } else if (offsetSemana === -1) {
-                    semanaTexto += ' (Semana passada)';
-                } else if (offsetSemana > 0) {
-                    semanaTexto += ` (Em ${offsetSemana} semana${offsetSemana > 1 ? 's' : ''})`;
-                } else {
-                    semanaTexto += ` (Há ${Math.abs(offsetSemana)} semana${Math.abs(offsetSemana) > 1 ? 's' : ''})`;
+                const data = await response.json();
+                
+                if (data.status === 'erro') {
+                    throw new Error(data.message);
                 }
                 
-                displayData.textContent = semanaTexto;
-                
-                if (!json.dias || json.dias.length === 0) {
-                    semanaContent.innerHTML = `
-                        <div style="text-align: center; padding: 40px 20px; color: #666;">
-                            <i class="fas fa-calendar-week" style="font-size: 2.5rem; margin-bottom: 15px; opacity: 0.5;"></i>
-                            <h3 style="margin-bottom: 10px;">Semana sem aulas</h3>
-                            <p>Não há aulas planejadas para esta semana.</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                let html = `<div class="semana-header">
-                    <h3 style="margin-bottom: 5px;">Semana ${json.semanaDoAno || '--'}</h3>
-                    <p style="opacity: 0.9; font-size: 0.9rem;">Planejamento de aulas</p>
-                </div>`;
-                
-                json.dias.forEach(dia => {
-                    html += `
-                        <div class="dia-card">
-                            <div class="dia-header">
-                                <div class="dia-title">${dia.data || 'Data'}</div>
-                                <div class="dia-date">${dia.dataBR || ''}</div>
-                            </div>
-                    `;
-                    
-                    if (!dia.aulas || dia.aulas.length === 0) {
-                        html += `
-                            <div style="text-align: center; padding: 20px; color: #999; background: #f9f9f9; border-radius: 6px;">
-                                <i class="fas fa-calendar-times"></i>
-                                <p style="margin-top: 5px;">Nenhuma aula neste dia</p>
-                            </div>
-                        `;
-                    } else {
-                        dia.aulas.forEach(aula => {
-                            const conteudo = aula.conteudoHoje || 'Nenhum planejamento registrado';
-                            const tipo = aula.tipoHoje || '';
-                            
-                            html += `
-                                <div style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                        <strong style="color: #2c3e50;">${aula.turma || ''}</strong>
-                                        <small style="color: #666;">${aula.inicio || ''} - ${aula.fim || ''}</small>
-                                    </div>
-                                    
-                                    <div style="margin-bottom: 10px; font-size: 0.85rem; color: #666;">
-                                        <i class="fas fa-door-closed"></i> ${aula.sala || ''}
-                                        ${aula.projetor ? ` • <i class="fas fa-video"></i> ${aula.projetor}` : ''}
-                                        ${aula.auxiliar ? ` • <i class="fas fa-hands-helping"></i> ${aula.auxiliar}` : ''}
-                                    </div>
-                                    
-                                    <div style="background: ${tipo === 'PLANEJADO' ? '#e8f5e9' : '#f5f5f5'}; 
-                                         padding: 12px; border-radius: 6px; border-left: 4px solid ${tipo === 'PLANEJADO' ? '#4caf50' : '#ddd'};">
-                                        <div style="color: ${tipo === 'PLANEJADO' ? '#1b5e20' : '#666'};">
-                                            ${tipo === 'PLANEJADO' ? '<i class="fas fa-thumbtack"></i> <strong>Planejado:</strong> ' : ''}
-                                            ${conteudo}
-                                        </div>
-                                    </div>
-                                    
-                                    <button class="btn-action" onclick="abrirModal('${escapeString(aula.turma || '')}', '${escapeString(dia.dataBR || '')}', 'PLANEJADO', '${escapeString(conteudo)}', '')" 
-                                            style="margin-top: 10px; padding: 10px; font-size: 0.85rem; background: #95a5a6;">
-                                        <i class="fas ${tipo === 'PLANEJADO' ? 'fa-edit' : 'fa-plus'}"></i>
-                                        ${tipo === 'PLANEJADO' ? 'Editar Planejamento' : 'Criar Planejamento'}
-                                    </button>
-                                </div>
-                            `;
-                        });
-                    }
-                    
-                    html += `</div>`;
-                });
-                
-                semanaContent.innerHTML = html;
+                renderizarSemana(data);
+                setStatus('✓ Semana carregada', 'success');
                 
             } catch (error) {
                 console.error('Erro ao carregar semana:', error);
-                semanaContent.innerHTML = `
+                listaSemana.innerHTML = `
                     <div class="error">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h3>Erro de Conexão</h3>
-                        <p>Não foi possível carregar o planejamento.</p>
-                        <p style="font-size: 0.85rem; margin-top: 10px;">${error.message}</p>
+                        <h3><i class="fas fa-exclamation-triangle"></i> Erro</h3>
+                        <p>${error.message}</p>
+                        <button onclick="carregarSemana(${offset})" class="btn-action" style="margin-top: 10px; width: auto; display: inline-flex;">
+                            <i class="fas fa-redo"></i> Tentar novamente
+                        </button>
                     </div>
                 `;
-                displayData.textContent = "Erro de Conexão";
+                setStatus('✗ Erro ao carregar semana', 'error');
             }
         }
         
-        // ================= FUNÇÕES AUXILIARES =================
-        
-        function escapeString(str) {
-            return (str || '')
-                .replace(/'/g, "\\'")
-                .replace(/"/g, '\\"')
-                .replace(/\n/g, ' ')
-                .replace(/\r/g, ' ');
-        }
-        
-        function abrirModal(turma, data, tipo, conteudo, obs) {
-            document.getElementById('modal').style.display = 'flex';
+        async function salvarRegistro() {
+            const turma = document.getElementById('modal-turma').value;
+            const data = document.getElementById('modal-data').value;
+            const conteudo = document.getElementById('modal-conteudo').value.trim();
+            const obs = document.getElementById('modal-obs').value.trim();
             
-            const titulo = tipo === 'PLANEJADO' ? 'Planejamento de Aula' : 'Registro de Aula Realizada';
-            document.getElementById('modal-titulo').textContent = titulo;
-            document.getElementById('modal-subtitulo').textContent = `${turma} • ${data}`;
-            
-            document.getElementById('input-turma').value = turma;
-            document.getElementById('input-data').value = data;
-            document.getElementById('input-tipo').value = tipo;
-            document.getElementById('input-conteudo').value = conteudo || '';
-            document.getElementById('input-obs').value = obs || '';
-            
-            // Focar no textarea
-            setTimeout(() => {
-                document.getElementById('input-conteudo').focus();
-            }, 100);
-        }
-        
-        function fecharModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
-        
-        async function salvar() {
-            const conteudo = document.getElementById('input-conteudo').value.trim();
             if (!conteudo) {
                 alert('Por favor, preencha o conteúdo da aula.');
-                document.getElementById('input-conteudo').focus();
                 return;
             }
             
-            const payload = {
-                turma: document.getElementById('input-turma').value,
-                data: document.getElementById('input-data').value,
-                tipo: document.getElementById('input-tipo').value,
-                conteudo: conteudo,
-                obs: document.getElementById('input-obs').value.trim() || ""
-            };
-            
-            const btn = document.querySelector('.btn-primary');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<span class="loading-spinner"></span> Salvando...';
-            btn.disabled = true;
+            const btnSalvar = document.getElementById('btn-salvar');
+            btnSalvar.disabled = true;
+            btnSalvar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
             
             try {
-                const response = await fetchAPI(API_URL_ORIGINAL, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain'
+                    },
+                    body: JSON.stringify({
+                        turma: turma,
+                        data: data,
+                        conteudo: conteudo,
+                        obs: obs,
+                        tipo: 'REALIZADO'
+                    })
                 });
                 
-                btn.innerHTML = originalText;
-                btn.disabled = false;
+                const result = await response.json();
                 
-                if (response.status === "erro") {
-                    alert('Erro: ' + response.message);
-                    return;
+                if (result.status === 'erro') {
+                    throw new Error(result.message);
                 }
                 
-                alert(response.message || 'Registro salvo com sucesso!');
+                setStatus('✓ Registro salvo!', 'success');
                 fecharModal();
-                
-                // Recarregar dados
-                if (modo === 'dia') {
-                    carregarDia();
-                } else {
-                    carregarSemana();
-                }
+                carregarDia(offsetDia);
                 
             } catch (error) {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
+                console.error('Erro ao salvar:', error);
                 alert('Erro ao salvar: ' + error.message);
-                console.error('Erro no save:', error);
+                setStatus('✗ Erro ao salvar', 'error');
+            } finally {
+                btnSalvar.disabled = false;
+                btnSalvar.innerHTML = '<i class="fas fa-save"></i> Salvar';
             }
         }
         
-        // ================= INICIALIZAÇÃO =================
+        // ==================== FUNÇÕES DE RENDERIZAÇÃO ====================
         
-        document.addEventListener('DOMContentLoaded', function() {
-            // Verificar se a URL está configurada
-            if (!API_URL_ORIGINAL || API_URL_ORIGINAL.includes('AKfycbw')) {
-                const statusDiv = document.getElementById('status');
-                statusDiv.innerHTML = '⚠ Configure a URL do Apps Script';
-                statusDiv.style.color = '#e67e22';
+        function renderizarAulas(aulas) {
+            if (!aulas || aulas.length === 0) {
+                listaAulas.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <h3>Nenhuma aula</h3>
+                        <p>Não há aulas programadas para este dia.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            aulas.forEach(aula => {
+                const temRegistro = aula.conteudoHoje && aula.conteudoHoje.trim() !== '';
                 
-                diaContent.innerHTML = `
+                html += `
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="turma-badge">${aula.turma}</span>
+                            <span class="horario">
+                                <i class="fas fa-clock"></i> ${aula.inicio} - ${aula.fim}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="infra-tags">
+                                <span class="tag sala">
+                                    <i class="fas fa-door-open"></i> ${aula.sala}
+                                </span>
+                                ${aula.projetor ? `<span class="tag projetor"><i class="fas fa-video"></i> ${aula.projetor}</span>` : ''}
+                                ${aula.auxiliar ? `<span class="tag auxiliar"><i class="fas fa-user-plus"></i> ${aula.auxiliar}</span>` : ''}
+                            </div>
+                            
+                            <div class="status-box box-memory">
+                                <strong><i class="fas fa-history"></i> Última aula:</strong><br>
+                                ${aula.memoria}
+                            </div>
+                            
+                            ${temRegistro ? `
+                                <div class="status-box box-done">
+                                    <strong><i class="fas fa-check-circle"></i> Registrado hoje:</strong><br>
+                                    ${aula.conteudoHoje}
+                                    ${aula.obsHoje ? `<br><em>Obs: ${aula.obsHoje}</em>` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <button class="btn-action" onclick="abrirModal('${aula.turma}', '${aula.dataFormatada}', '${escapeHtml(aula.conteudoHoje || '')}', '${escapeHtml(aula.obsHoje || '')}')">
+                            <i class="fas fa-edit"></i> ${temRegistro ? 'Editar Registro' : 'Registrar Aula'}
+                        </button>
+                    </div>
+                `;
+            });
+            
+            listaAulas.innerHTML = html;
+        }
+        
+        function renderizarSemana(data) {
+            if (!data.dias || data.dias.length === 0) {
+                listaSemana.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <h3>Sem dados</h3>
+                        <p>Não foi possível carregar o planejamento.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = `
+                <div class="semana-header">
+                    <i class="fas fa-calendar-alt"></i> Semana ${data.semanaDoAno} - ${data.dataInicio}
+                </div>
+            `;
+            
+            data.dias.forEach(dia => {
+                html += `
+                    <div class="dia-card">
+                        <div class="dia-header">
+                            <span class="dia-title">${dia.data}</span>
+                            <span class="dia-date">${dia.dataBR}</span>
+                        </div>
+                `;
+                
+                if (dia.aulas && dia.aulas.length > 0) {
+                    dia.aulas.forEach(aula => {
+                        const temConteudo = aula.conteudoHoje && aula.conteudoHoje.trim() !== '';
+                        html += `
+                            <div class="aula-item" style="border-left-color: ${temConteudo ? '#4caf50' : '#3498db'}">
+                                <div class="aula-item-header">
+                                    <span class="aula-turma">${aula.turma}</span>
+                                    <span class="aula-horario">${aula.inicio} - ${aula.fim}</span>
+                                </div>
+                                <div class="aula-conteudo">
+                                    ${temConteudo 
+                                        ? `<i class="fas fa-check" style="color: #4caf50"></i> ${aula.conteudoHoje}` 
+                                        : `<i class="fas fa-minus" style="color: #999"></i> <em>Não registrado</em>`
+                                    }
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    html += `<p style="color: #999; font-style: italic; padding: 10px 0;">Nenhuma aula neste dia</p>`;
+                }
+                
+                html += `</div>`;
+            });
+            
+            listaSemana.innerHTML = html;
+        }
+        
+        // ==================== FUNÇÕES DO MODAL ====================
+        
+        function abrirModal(turma, data, conteudo, obs) {
+            document.getElementById('modal-turma').value = turma;
+            document.getElementById('modal-data').value = data;
+            document.getElementById('modal-conteudo').value = conteudo || '';
+            document.getElementById('modal-obs').value = obs || '';
+            document.getElementById('modal-info').textContent = `${turma} - ${data}`;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function fecharModal() {
+            modal.style.display = 'none';
+        }
+        
+        // ==================== FUNÇÕES AUXILIARES ====================
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/'/g, "\\'").replace(/"/g, '\\"');
+        }
+        
+        function setStatus(message, type = 'info') {
+            statusEl.textContent = message;
+            statusEl.style.color = type === 'success' ? '#4caf50' : type === 'error' ? '#f44336' : '#666';
+            
+            setTimeout(() => {
+                statusEl.textContent = '';
+            }, 3000);
+        }
+        
+        // ==================== EVENT LISTENERS ====================
+        
+        document.getElementById('btn-prev').addEventListener('click', () => {
+            carregarDia(offsetDia - 1);
+        });
+        
+        document.getElementById('btn-next').addEventListener('click', () => {
+            carregarDia(offsetDia + 1);
+        });
+        
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+                
+                this.classList.add('active');
+                const tabId = this.dataset.tab;
+                document.getElementById('tab-' + tabId).classList.add('active');
+                
+                if (tabId === 'semana') {
+                    carregarSemana(offsetDia);
+                }
+            });
+        });
+        
+        document.getElementById('btn-salvar').addEventListener('click', salvarRegistro);
+        document.getElementById('btn-cancelar').addEventListener('click', fecharModal);
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                fecharModal();
+            }
+        });
+        
+        // ==================== INICIALIZAÇÃO ====================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            if (SCRIPT_URL === 'SUA_URL_DO_WEB_APP_AQUI') {
+                listaAulas.innerHTML = `
                     <div class="error">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h3>Configuração Necessária</h3>
-                        <p>Por favor, configure a URL do seu Google Apps Script no código JavaScript.</p>
-                        <p style="margin-top: 10px; font-size: 0.9rem;">
-                            <strong>Passos:</strong><br>
-                            1. Publique seu Apps Script como Web App<br>
-                            2. Copie a URL fornecida<br>
-                            3. Substitua a variável API_URL_ORIGINAL<br>
-                            4. Recarregue esta página
+                        <h3><i class="fas fa-exclamation-triangle"></i> Configuração necessária</h3>
+                        <p>Por favor, substitua <code>SCRIPT_URL</code> pela URL do seu Web App do Google Apps Script.</p>
+                        <p style="margin-top: 10px; font-size: 0.85rem;">
+                            No Apps Script: Implantar → Nova implantação → Tipo: App da Web
                         </p>
                     </div>
                 `;
                 return;
             }
             
-            // Fechar modal ao clicar fora
-            document.getElementById('modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    fecharModal();
-                }
-            });
-            
-            // Iniciar
-            carregarDia();
+            carregarDia(0);
         });
-        
-        // Funções de debug (útil para testes)
-        window.debug = {
-            testarConexao: function() {
-                const url = `${API_URL_ORIGINAL}?action=getDia&offset=0`;
-                console.log('Testando:', url);
-                fetch(url).then(r => {
-                    console.log('Status:', r.status);
-                    console.log('Headers:', [...r.headers.entries()]);
-                    return r.text();
-                }).then(text => {
-                    console.log('Texto:', text);
-                    try {
-                        console.log('JSON:', JSON.parse(text));
-                    } catch {
-                        console.log('Não é JSON');
-                    }
-                }).catch(console.error);
-            },
-            resetar: function() {
-                offsetDia = 0;
-                offsetSemana = 0;
-                if (modo === 'dia') carregarDia();
-                else carregarSemana();
-            }
-        };
     </script>
 </body>
 </html>
